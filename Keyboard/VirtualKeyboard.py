@@ -1,6 +1,6 @@
 import cv2
 from HandTrackingModule import HandDetector
-from time import sleep
+from time import time
 import numpy as np
 import cvzone
 from pynput.keyboard import Controller
@@ -20,8 +20,10 @@ finalText = ""
 keyboard = Controller()
 
 isClicking = False
-cursorPos = len(finalText)  # Initialize cursor at the end of the text
-frameCounter = 0  # Counter for blinking cursor
+# Cursor blinking control
+cursorVisible = True
+blinkStartTime = time()
+blinkInterval = 0.3  # Cursor blink interval in seconds
 
 def drawAll(img, buttonList):
     imgNew = np.zeros_like(img, np.uint8)
@@ -87,7 +89,6 @@ while True:
                         cv2.putText(img, button.text, (x + 20, y + 65),
                                     cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4) 
                         isClicking = True
-                        sleep(0.15)
                 else:
                     isClicking = False
 
@@ -95,6 +96,17 @@ while True:
     cv2.rectangle(img, (50, 455), (1200, 510), (80, 80, 80), cv2.FILLED)
     cv2.putText(img, finalText, (60, 500),
                 cv2.FONT_HERSHEY_PLAIN, 3, (255, 255, 255), 5)
+    
+    # Draw the blinking cursor
+    if cursorVisible:
+        textWidth, _ = cv2.getTextSize(finalText, cv2.FONT_HERSHEY_PLAIN, 3, 5)[0]
+        cursorX = 60 + textWidth
+        cv2.line(img, (cursorX, 465), (cursorX, 500), (255, 255, 255), 2)
+
+    # Toggle cursor visibility
+    if time() - blinkStartTime >= blinkInterval:
+        cursorVisible = not cursorVisible
+        blinkStartTime = time()
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
