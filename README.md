@@ -5,7 +5,7 @@ This project investigates hand gesture recognition in the context of human-compu
 
 ![Hand-Gesture Keyboard Gameplay Screenshot](Keyboard/keyboard.png)
 
-![Hand-Gesture HG Gameplay Screenshot](Hang_language/HG.png)
+![Hand-Gesture HG Gameplay Screenshot](Hand-Gesture/HG.png)
 
 ## 🛠️ Technologies
 - **Image Processing**: Techniques and algorithms used for hand gesture recognition.
